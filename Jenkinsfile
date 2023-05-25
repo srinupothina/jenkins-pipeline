@@ -1,11 +1,11 @@
 pipeline {
     agent { 
         node {
-            label "t059-runne"
+            label "t059-runner"
         }
     } 
     tools {
-        maven 'maven_3_5_0'
+        maven 'maven"
     }
     stages {
         stage('Build Maven') {
