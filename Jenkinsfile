@@ -5,7 +5,7 @@ pipeline {
         }
     } 
     tools {
-        maven 'maven_3_5_0'
+        maven 'maven'
     }
     stages {
         stage('Build Maven') {
@@ -24,8 +24,9 @@ pipeline {
         stage('Push image to Docker Hub') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                        sh "docker login -u srinu9666 -p ${dockerhubpwd}"
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-sr', passwordVariable: 'DOCKER_HUB_PASSWORD', usernameVariable: 'DOCKER_HUB_USERNAME')]) {
+                        
+                        sh "echo ${DOCKER_HUB_PASSWORD} |sudo docker login --username ${DOCKER_HUB_USERNAME} --password-stdin"
                         
                         sh 'docker tag jenkins/devops-integration srinu-jenkins/jenkins-docker-image:v1'
                         
